@@ -1,5 +1,3 @@
-from collections import defaultdict
-
 all_transport = {
 'D-класс (средний) до 4,6 м',
 'S-класс (высший, представительский класс) более 4,9 м',
