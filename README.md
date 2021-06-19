@@ -10,3 +10,6 @@ It *may be a good idea to use your own separate environment* to avoid any local 
 
 Also note that there may be problems with downloading `sktime` to your local computer. If you face any challenges, use google.colab
 
+## Usage
+
+Clone repo, run `python3 preprocessing.py` to get clean dataset and you are good to go! Hopefully, every result in notebooks is reproducible.
