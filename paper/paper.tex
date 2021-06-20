@@ -1,0 +1,123 @@
+\documentclass[a4paper,10pt]{extarticle}
+
+\usepackage{mmap}                       % поиск в PDF
+\usepackage{mathtext}                   % русские буквы в фоhмулах
+\usepackage[T2A]{fontenc}               % кодировка
+\usepackage[utf8]{inputenc}             % кодировка исходного текста
+\usepackage[russian, english]{babel}     % локализация и переносы
+
+% Useful features for enums
+\usepackage{enumitem}
+
+% Работа с математикой
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools}  % AMS
+\usepackage{icomma} % "Умная" запятая: 0,2 --- число, 0, 2 --- перечисление
+\renewcommand\qedsymbol{$\blacksquare$}
+\usepackage{algorithm} % algos
+\usepackage{algpseudocode}
+\usepackage{float}
+
+%% Перенос знаков в формулах
+\newcommand*{\hm}[1]{#1\nobreak\discretionary{}
+{\hbox{$\mathsurround=0pt #1$}}{}}
+
+\usepackage{multicol} % multiple colummns
+
+\usepackage[figurename=Figure]{caption}
+
+%% Номера формул
+\mathtoolsset{showonlyrefs=true, showmanualtags=true} % Показывать номера только у тех формул, на которые есть \eqref{} в тексте.
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+\usepackage{geometry} % Простой способ задавать поля
+\geometry{top=2cm}
+\geometry{bottom=2cm}
+\geometry{left=2cm}
+\geometry{right=2cm}
+
+\DeclareMathOperator{\sgn}{\mathop{sgn}}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+
+%theorems
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}{Corollary}[theorem]
+
+\everymath{\displaystyle}
+%\usepackage[unicode]{hyperref}
+\usepackage[svgnames]{xcolor}
+\usepackage[colorlinks=true, linkcolor=Maroon, urlcolor=cyan, citecolor=cyan]{hyperref}
+\usepackage{mathrsfs}
+
+ \makeatletter
+    \def\thebibliography#1{\section*{References\@mkboth
+      {REFERENCES}{REFERENCES}}\list
+      {[\arabic{enumi}]}{\settowidth\labelwidth{[#1]}\leftmargin\labelwidth
+	\advance\leftmargin\labelsep
+	\usecounter{enumi}}
+	\def\newblock{\hskip .11em plus .33em minus .07em}
+	\sloppy\clubpenalty4000\widowpenalty4000
+	\sfcode`\.=1000\relax}
+    \makeatother
+
+\renewcommand{\baselinestretch}{1.5}
+
+\begin{document}
+
+\thispagestyle{empty}
+\begin{center}
+	\textbf{ПРАВИТЕЛЬСТВО РОССИЙСКОЙ ФЕДЕРАЦИИ}\\
+	\vspace{3ex}
+	\textbf{Федеральное государственное автономное\\ образовательное учреждение высшего образования}
+
+	\vspace{3ex}
+
+	\textbf{Национальный исследовательский университет \\ <<Высшая школа экономики>>}
+
+	\vspace{10ex}
+	\begin{flushright}
+		Факультет экономических наук\\
+		Образовательная программа <<Экономика>>
+		\end{flushright}
+\end{center}
+\vspace{12ex}
+
+\begin{center}
+	{\textbf{КУРСОВАЯ РАБОТА
+	}}
+	\vspace{1ex}
+
+	<<Дихотомический выбор, Агрегирование голосов и теорема Кондорсе>> \\
+	<<Dichotomous Choice, Aggregation of Votes and Condorcet's Jury Theorem>>
+\end{center}
+\vspace{4ex}
+\begin{flushright}
+	\noindent
+	Студент группы БЭК181\\Щекотов Иван Сергеевич, Тамогашев Кирилл\\
+	\vspace{13ex}
+	Научный руководитель:\\
+	Борис Демешев
+
+\end{flushright}
+
+\vfill
+
+\begin{center}
+	Москва 2021
+
+\end{center}
+\newpage
+\tableofcontents
+\newpage
+\section{Introduction}
+%\input{src/intro.tex}
+\section{Literature Review}
+\section{Data Preprocessing and Description}
+\input{src/data_description.tex}
+%\input{src/literature.tex}
+\cleardoublepage
+\phantomsection
+\addcontentsline{toc}{section}{References}
+\input{src/references.tex}
+\end{document}

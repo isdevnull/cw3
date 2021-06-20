@@ -1,0 +1,126 @@
+For our purpose we have chosen data gathered from January 2015 to April 2021 in Moscow.
+Data is represented via $\verb|geojson|$ format and contains extensive amount of features
+describing various aspects of car accidents, including
+coordinates, lighting, weather and road conditions, nearby objects, datetime,
+severity, information about vehicles, drivers and passengers involved,
+their health conditions in the aftermath, rule violations that caused accident,
+injured and dead counts\footnote{Example of how data is structured can be found \href{https://dtp-stat.ru/opendata/}{here}.}.
+Almost all of the described features fall into the categorical type and are of nested structure
+(i.e. there are multiple cars, people, road conditions in an accident) and they are non-hierarchical,
+which means simple label encoding is not applicable.
+\subsection{Generalizing and encoding unique values}
+The problem with data is that due to it's nature, some of the features have an enormous amount of unique values which are not
+relevant in all their variety. Our methodology insists on
+merging these unique values for every such category into groups by some inherent property that these values possess,
+e.g. if a person dies after being hospitalized, we prefer not to distinguish between various time spans over
+which death has occured or if there are various types of passenger cars, there is no reason to analyze them
+as being different. In another words we try to explicitly project data into lower dimension,
+because it is impossible to work with otherwise.
+We discuss these features further and describe ideas which led us to unification. All code that refers to generalizing
+unique values is presented in $\verb|utils|$ folder\footnote
+{\href{https://github.com/isdevnull/cw3/tree/dev/utils}{https://github.com/isdevnull/cw3/tree/dev/utils}}. 
+\subsubsection[Violations]{Violations\footnote{\href{https://github.com/isdevnull/cw3/blob/dev/utils/violations.py}
+{https://github.com/isdevnull/cw3/blob/dev/utils/violations.py}}}
+There are 104 unique violations that were ascribed to accidents. Violations are commited by drivers or by pedestrians
+(people that are not driving behind the wheel of the vehicle and that are not passengers) and they can be divided into 8
+groups:
+\begin{multicols}{2}
+\begin{enumerate}[noitemsep]
+	\item violations of driving with respect to car motion
+	\item violations of goods transportation or сarriage of passengers
+	\item violations of obligations or non-compliance when driving a motorcycle
+	\item improper use of light signals to control traffic
+	\item violations commited by pedestrians
+	\item non-compliance with rules of safety when driving
+	\item violations of vehicle operation
+	\item other
+\end{enumerate}
+\end{multicols}
+There is no unified classification provided by Russian department of transport, so our division may be incorrect.
+It is based on sane reasoning and similarities between different events. 
+\subsubsection[Nearby Objects]{Nearby Objects\footnote{\href{https://github.com/isdevnull/cw3/blob/dev/utils/nearby.py}
+{https://github.com/isdevnull/cw3/blob/dev/utils/nearby.py}}}
+Nearby objects represent buildings surrounding an accident and road type (i.e. junctions, pedestrian crossings, etc.).
+There are 58 unique values and they can be divided into 8 groups:
+\begin{multicols}{2}
+\begin{enumerate}[noitemsep]
+	\item other
+	\item unmarked and marked junctions
+	\item unmarked and marked pedestrian crossings
+	\item places with increased transport density (usually, some kind of stop on road)
+	\item crowded places (e.g. bus stop)
+	\item controlled junctions
+	\item controlled pedestrian crossings
+	\item[\vspace{\fill}]
+\end{enumerate}
+\end{multicols}
+`Other' mostly contains various types of buildings, while other groups relate to some road objects.
+We didn't break `other' into multiple groups because considered this step irrelevant for our purposes or
+reckoned that groups are rather small to be represented (both by accident occurence and unique values).
+\subsubsection[Automobile Categories]{Automobile Categories\footnote{\href{ttps://github.com/isdevnull/cw3/blob/dev/utils/transport.py}
+{https://github.com/isdevnull/cw3/blob/dev/utils/transport.py}}}
+Different types of vehicles (82) were divided into the following groups:
+\begin{multicols}{2}
+\begin{enumerate}[noitemsep]
+	\item passenger cars
+	\item elite passenger cars
+	\item trucks
+	\item public transport
+	\item offroad and heavy-duty vehicles
+	\item motor vehicles with less than 4 wheels
+	\item other
+	\item[\vspace{\fill}]
+\end{enumerate}
+\end{multicols}
+\subsubsection[Health Status]{Health Status\footnote{\href{https://github.com/isdevnull/cw3/blob/dev/utils/health\_status.py}
+{https://github.com/isdevnull/cw3/blob/dev/utils/health\_status.py}}}
+The consequences of accidents are characterized by different health status (41). 
+We define the following groups both for drivers, passengers and pedestrians:
+\begin{enumerate}[noitemsep]
+	\item no injuries
+	\item light injuries
+	\item wounded victims
+	\item death occured before being transported to hospital
+	\item death occured after receiving treatment in hospital
+\end{enumerate}
+\subsubsection[Preprocessing]{Preprocessing\footnote{\href{https://github.com/isdevnull/cw3/blob/dev/preprocessing.py}
+{https://github.com/isdevnull/cw3/blob/dev/preprocessing.py}}}
+Let $F = \left\{ \text{`violations'}, \text{`status'}, \text{`transport'}, \text{`nearby'} \right\} $ 
+	– features to be transformed. \\
+Let $S$ be a set of all available features. $C \subset S \setminus F$ – categorical features to be encoded. \\
+Let $E$ be the space of all possible feature encodings. \\
+Let $g \colon F \hookrightarrow E$ – injective function that applies feature specific encoding. \\
+Let $h \colon C \hookrightarrow \mathbb{N} $ – function that returns number of unique elements for given feature. \\
+Let $D$ be our sample of accidents. \\
+When we apply some function to the feature, we assume that feature is a column of size of all our data, e.g.
+`violations' $\in X^{|D|}$, where $X$ is a set of unique violations.
+This is done to remove multiple for-loop nesting over all data points when describing algorithm.
+\begin{algorithm}[H]
+	\caption*{\textbf{Preprocessing algorithm}}
+\begin{algorithmic}[1]
+	\State \textbf{Initialize:} $F_g \gets \left\{  \right\} $ 
+	\For{$x \in F$}
+	\State $F_g \gets F_g \cup g(x)$
+	\EndFor
+	\State $C \gets C \cup F_g$ 
+	\For{$c \in C$}
+	\State $T_c \gets one\_hot\_encoding(c)$, where $T_c = \left\{ t_1, \ldots, t_{h(c)} \right\},
+	 \ t_j \in \left\{ 0, 1 \right\}^{|D|},\ j \in \left\{ 1, \ldots, h(c) \right\} $
+	\State $C \gets C \setminus c$
+	\State $C \gets C \cup T_c$
+	\EndFor
+\end{algorithmic}	
+\end{algorithm}
+\noindent
+This is a general procedure which happens when we preprocess our data in $\verb|download_and_preprocess_data()|$.
+Eventually, we get a dataset with all the features that we want to explore.
+Some features like `driver experience' are extracted from nested structure and put in a list
+because there can be multiple drivers involved in an accident.
+We also extract percent of women involved in an accident as driver, e.g. if there was a collision between a man driver and a woman driver,
+then the value would be $0.5$.
+Lastly, we select only those accidents that occured in Moscow. Initial data has some flawed points that need to be removed.
+That is why we use the following bounding conditions on latitude: from $55.1339600^\circ$ to $55.9825000^\circ$,
+longitude: $37.1813900^\circ$ to $37.9545100^\circ$, which
+correspond to Mihnevo ($55.1339600^\circ$, $37.9545100^\circ$) and Zelenograd ($55.9825000^\circ$, $37.1813900^\circ$).
+Data is saved in $\verb|csv|$ format and is accessible from root of repository. The code is applicable (maybe with minor tweaks)
+to all other Russian regions.
