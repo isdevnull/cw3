@@ -3,6 +3,7 @@
 __pycache__/
 /project
 *.log
+/catboost_info
 
 ## latex ##
 /paper/*.log
