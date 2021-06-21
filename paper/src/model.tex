@@ -3,7 +3,7 @@
 To analyze time series data we use three models to predict the trajectory of the number of accidents with deaths.
 We split the series into ‘Train’ and ‘Test’ putting off the last year for testing.
 For time series analysis we fit ARIMA model [ SARIMAX(0, 1, 1)(1, 0, 1, 12) ] with its AutoARIMA implementation,
-TBATS with Box-Cox transformations and year seasonality and Prophet with additive seasonality,
+TBATS with Box-Cox transformations and year seasonality and Prophet \cite{prophet} with additive seasonality,
 linear growth and MCMC samples using their implementation in $\verb|sktime|$.
 In order to measure the error of prediction we use MAPE (Mean average percentage error).
 The choice of the metric can be attributed to the need to measure not the absolute value of the error, but the normed one,
@@ -34,7 +34,8 @@ As it turns out the best model is Prophet with MAPE equal to 0.2271.
 \end{figure}
 \subsection{Imbalanced Classification}
 In this part we carefully examine the approach to imbalanced classification used in this research.
-In order to measure the accuracy of prediction we choose Cohen-Kappa coefficient and Matthews Correlation Coefficient.
+In order to measure the accuracy of prediction we choose Cohen-Kappa coefficient \cite{CKS} and Matthews Correlation Coefficient
+\cite{MCC_intro, MCC_2000, MCC_new}.
 We also use AUC-Pr to measure the quality of the model. The reason we choose these metrics instead of usual accuracy is precisely the imbalance we have.
 In that case usual accuracy happens to be skewed towards majority class and does not accurately measure the quality of the result.
 Moreover, we separately measure precision and recall of two classes as well.
@@ -66,11 +67,11 @@ Their results can be seen in the table.
 	 & \textbf{Cohen-Kappa} &	\textbf{MCC} & \textbf{AUC-Pr} & \textbf{Precision(Majority)} & \textbf{Precision(Minority)} & \textbf{Recall(Majority)} &	
  \textbf{Recall(Minority)} \\
 	 \hline
-		One-Class SVM & -0.025	& -0.05	& 0.044	& 0.938 &	0.036	& 0.491	& 0.371 \\
+	One-Class SVM \cite{1SVM} & -0.025	& -0.05	& 0.044	& 0.938 &	0.036	& 0.491	& 0.371 \\
 		\hline
-		Isolation Forest & \textbf{0.054} & \textbf{0.054} &	\textbf{0.054}	& \textbf{0.954} &	\textbf{0.094}	& \textbf{0.039}	& 0.122 \\
+	Isolation Forest \cite{IsolForest} & \textbf{0.054} & \textbf{0.054} &	\textbf{0.054}	& \textbf{0.954} &	\textbf{0.094}	& \textbf{0.039}	& 0.122 \\
 		\hline
-		Local Outlier Factor & 0.001 & 0.005 & \textbf{0.054} & 0.953 & 0.050	& 0.314	& \textbf{0.696} \\
+	Local Outlier Factor \cite{LOF} & 0.001 & 0.005 & \textbf{0.054} & 0.953 & 0.050	& 0.314	& \textbf{0.696} \\
 		\hline
 	\end{tabular}
 }
@@ -87,14 +88,14 @@ they cannot discriminate objects of two classes as those objects are very close 
 	\minipage{0.5\textwidth}
 	\centering
 	\includegraphics[width=1\textwidth]{../imgs/pdf_files/scores_lr.pdf}
-	\caption{Classification Metrics Logistic Regression}
+	\caption{\textbf{Classification Metrics Logistic Regression}}
 	\label{fig:logreg}
 	\endminipage
 	\hfill
 	\minipage{0.5\textwidth}
 	\centering
 	\includegraphics[width=1\textwidth]{../imgs/pdf_files/scores_cbc.pdf}
-	\caption{Classification Metrics Catboost}
+	\caption{\textbf{Classification Metrics Catboost}}
 	\label{fig:cbc}
 	\endminipage
 \end{figure}
