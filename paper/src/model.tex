@@ -11,7 +11,6 @@ as these results can be interpreted better. The results of the models are shown 
 
 \begin{table}[htpb]
 	\centering
-	\caption{\textbf{Mean Average Percentage Error}}
 	\label{tab:mape}
 	\begin{tabular}{|c|c|}
 		\hline
@@ -22,6 +21,7 @@ as these results can be interpreted better. The results of the models are shown 
 		\textbf{Prophet}	& $0.2271$ \\ 
 		\hline
 	\end{tabular}
+	\caption{\textbf{Mean Average Percentage Error}}
 \end{table}
 \noindent
 We visualize the predictions of each model. As it turns out the best model is Prophet with MAPE equal to 0.2271.
@@ -54,13 +54,11 @@ It is clear from the graphs, that both models are unable to give meaningful accu
 As authors think, it happens largely to the overlap of data.
 That means that existing predictors are insufficient to accurately separate to classes.
 Meaning that we actually really don’t have other valuable features, that may help us to predict the severity better. \\
-In attempt to tackle that problem we fit models, specifically designed for imbalanced datasets 
+In attempt to tackle that problem we fit models, specifically designed for imbalanced datasets.
 Their results can be seen in the table.
 
 \begin{table}[htpb]
-
 	\centering
-	\caption{Imbalanced Classification Metrics}
 	\label{tab:metircs_imb}
 	\resizebox{15cm}{!}
 	{
@@ -77,6 +75,7 @@ Their results can be seen in the table.
 		\hline
 	\end{tabular}
 }
+\caption{\textbf{Imbalanced Classification Metrics}}
 \end{table}
 \noindent
 As we can see these methods perform worse, with Isolation Forest giving slightly better results.
