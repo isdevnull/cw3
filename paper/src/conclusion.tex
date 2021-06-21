@@ -1,0 +1,25 @@
+To conclude the whole research we can say, that overlapping data and imbalance significantly impeded the model construction.
+Now let us review the dataset and draw meaningful summary of that work.
+
+Firstly, exploratory data analysis clearly shows that, although the number of car crashes is at its height during the day,
+one is less likely to end up being killed at noon. 
+However, the chance of a tragic outcome increases almost fourfold at night.
+Clustering car accidents also allows to obtain information on the most risky places.
+Those places turn out to be junctions or motorways with a heavy traffic.
+
+Secondly, the model for predicting the number of deaths in car accidents was constructed,
+emulating the yearly seasonality and clear downward trend.
+Based on comparison the best model turned out to be Prophet with Bayesian inference and MCMC simulations.
+
+Thirdly, as we can see the existing data is insufficient to determine the outcome of a car accident.
+It does not mean, that road or weather conditions have no influence on the outcome of a crash,
+but that their impact is minor. At least there are other factors that are relevant and are not present in the dataset.
+And that is actually true from the practical point of view.
+The dataset has no information concerning the type of a vehicle, its conditions and safety equipment.
+However, these things are highly important as they determine the extent to which driver is protected.
+Moreover, we examined only the given features, but there is an option to construct some new features out of them.
+For example one could create some combinations of features or use kernels to perform a non-linear transformation of given information.
+
+So, based on the existing information it is impossible to meaningfully predict the outcome of a crash.
+Therefore another research is needed to extract additional information and build a better model .
+

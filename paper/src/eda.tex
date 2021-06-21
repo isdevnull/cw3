@@ -1,24 +1,28 @@
 \subsection{Initial analysis}
 First, we decided to explore our data with respect to severity, which is useful for our analysis.
 \begin{figure}[htpb!]
+	\minipage{0.5\textwidth}
 	\centering
-	\includegraphics[width=0.5\textwidth, scale=0.4]{../imgs/pdf_files/top5deaths.pdf}
+	\includegraphics[width=1\textwidth]{../imgs/pdf_files/top5deaths.pdf}
 	\caption{\textbf{Top categories by deaths}}
 	\label{fig:top5d}
+	\endminipage
+	\hfill
+	\minipage{0.5\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{../imgs/pdf_files/top5injuries.pdf}
+	\caption{\textbf{Top categories by injuries}}
+	\label{fig:top5inj}
+	\endminipage
 \end{figure}
 We can see from figure \ref{fig:top5d} that most of the deaths occur when pedestrians are involved, next deadliest are crashes, obstacle encounter,
 crashes with non-moving vehicles, overturns. Nothing surprising. We get similar results for injuries:
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=0.5\textwidth, scale=0.4]{../imgs/pdf_files/top5injuries.pdf}
-	\caption{\textbf{Top categories by injuries}}
-	\label{fig:top5inj}
-\end{figure}
 \noindent
  Most injuries occur during crashes, pedestrian and obstacle encounters, crashes with non-moving vehicles,
 falls of passengers.
-Interestingly, if we count number of deaths with respect to total participants by category of accident, we get the following results:
-\begin{table}[H]
+Interestingly, if we count number of deaths with respect to total participants by category of accident, we get the results 
+as shown in table \ref{tab:prob_death}.
+\begin{table}[h]
 	\centering
 	\label{tab:prob_death}
 	\begin{tabular}{|c|c|}
@@ -68,4 +72,48 @@ distinguish between clusters, because we are only interested, in general, how pr
 to their severity. The larger the $U$ hyperparameter the bigger the problematic regions and the more spreaded they are.
 \subsection{Time Series Analysis}
 
-Because we want to predict severity and it is a categorical variable, we assign labels from 0 to 2, ranging fron non-severe to lethal accidents.
+Because we want to predict severity and it is a categorical variable, we assign label 0 to cases without significant injuries and 1 otherwise.
+First of all we examine the behavior of the variable. As we can see the number of severe car accidents declines as shown on figure \ref{fig:ts_sev}.
+However as it was mentioned above severity combines two features.
+Therefore we plot number of injuries and deaths per month as well.
+As we compare two figures \ref{fig:ts_inj} and \ref{fig:ts_death}, it is clear that the downward trend of the number of severe cases can be attributed the the decline of number of deaths.
+The graph for injuries(\ref{fig:ts_inj}) heavily fluctuates around its mean, whereas the girth depicting number of deaths declines. 
+If we review this graph separately we may notice that beside downward trend it also has a yearly seasonality.
+We visualize the behaviour of number of deaths (figure \ref{fig:ts_death}) and compare it to the number of car accidents throughout a day.
+The analysis shows (figure \ref{fig:ts_dist}) that the number of accidents peaks at a daytime, however the most risky time for a person is night,
+as it is four times more likely to be killed or injured from midnight to 7 a.m. 
+Based on that information we construct additional features and estimate their potential to be useful predictors.
+Correlation of the newly created predictors is shown below:
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.5\textwidth]{../imgs/pdf_files/new_embeddings_correlation.pdf}
+	\caption{Correlation of embeddings}
+	\label{fig:new_embed}
+\end{figure}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/pdf_files/ts_severity.pdf}
+	\caption{Severity from 01.2015 till 04.2021}
+	\label{fig:ts_sev}
+\end{figure}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/pdf_files/ts_injuries.pdf}
+	\caption{Number of injuries from 01.2015 till 04.2021}
+	\label{fig:ts_inj}
+\end{figure}
+
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/pdf_files/ts_distributions.pdf}
+	\caption{Distribution of deaths and accidents by daytime}
+	\label{fig:ts_dist}
+\end{figure}
+\begin{figure}[htpb]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/pdf_files/ts_death_first_diff.pdf}
+	\caption{Number of deaths from 01.2015 till 04.2021}
+	\label{fig:ts_death}
+\end{figure}

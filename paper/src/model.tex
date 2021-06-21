@@ -24,7 +24,14 @@ as these results can be interpreted better. The results of the models are shown 
 	\caption{\textbf{Mean Average Percentage Error}}
 \end{table}
 \noindent
-We visualize the predictions of each model. As it turns out the best model is Prophet with MAPE equal to 0.2271.
+We visualize the predictions of each model as shown on figure \ref{fig:ts_predictions}.
+As it turns out the best model is Prophet with MAPE equal to 0.2271.
+\begin{figure}[htpb!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{../imgs/pdf_files/ts_predictions.pdf}
+	\caption{\textbf{Time Series Death Predictions}}
+	\label{fig:ts_predictions}
+\end{figure}
 \subsection{Imbalanced Classification}
 In this part we carefully examine the approach to imbalanced classification used in this research.
 In order to measure the accuracy of prediction we choose Cohen-Kappa coefficient and Matthews Correlation Coefficient.
@@ -32,16 +39,8 @@ We also use AUC-Pr to measure the quality of the model. The reason we choose the
 In that case usual accuracy happens to be skewed towards majority class and does not accurately measure the quality of the result.
 Moreover, we separately measure precision and recall of two classes as well.
 First of all we focus our attention on classical methods and use logistic regression and boosting methods.
-As hyperparameters we select class weights, significantly downsizing the majority class the results of two methods are shown on the graph
-\ref{fig:ts_predictions}.
-
-\begin{figure}[htpb!]
-	\centering
-	\includegraphics[width=0.8\textwidth]{../imgs/pdf_files/ts_predictions.pdf}
-	\caption{\textbf{Time Series Death Predictions}}
-	\label{fig:ts_predictions}
-\end{figure}
-\noindent
+As hyperparameters we select class weights, significantly downsizing the majority class the results of two methods are shown on figures
+\ref{fig:logreg}, \ref{fig:cbc}. \\
 In order to meaningfully estimate the results of the two models we look at probabilities the models assign to each class
 for every object and then compute metrics multiple times while changing the binarization threshold.
 We can see that two models give comparable results with boosting performing slightly better. The results can be interpreted as follows.
@@ -82,3 +81,21 @@ As we can see these methods perform worse, with Isolation Forest giving slightly
 The reason for that may be the overlap as well.
 And given the fact that all the methods are based on either drawing a hyperplane in object space or counting the distance
 they cannot discriminate objects of two classes as those objects are very close to each other.
+
+
+\begin{figure}[htpb]
+	\minipage{0.5\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{../imgs/pdf_files/scores_lr.pdf}
+	\caption{Classification Metrics Logistic Regression}
+	\label{fig:logreg}
+	\endminipage
+	\hfill
+	\minipage{0.5\textwidth}
+	\centering
+	\includegraphics[width=1\textwidth]{../imgs/pdf_files/scores_cbc.pdf}
+	\caption{Classification Metrics Catboost}
+	\label{fig:cbc}
+	\endminipage
+\end{figure}
+

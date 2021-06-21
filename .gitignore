@@ -12,6 +12,7 @@ __pycache__/
 /paper/*.toc
 /paper/*.fdb_latexmk
 /paper/*.fls
+/paper/*.dvi
 /paper/src/*
 !/paper/src/*.tex
 
