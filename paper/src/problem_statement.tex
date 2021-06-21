@@ -1,0 +1,39 @@
+Car accidents may occur due to many reasons. And usually there are multiple factors determining the outcome of a particular crash.
+Among these factors are time of a day, weather conditions, car model, etc.
+The outcome of a crash, either tragic one or without any loss of lives and severe injuries,
+is supposed to correlate with the type of violation that caused the accident.
+The rationale underneath is straightforward: as it happens, the accident occurs after someone violates the law and causes that accident.
+If the violation is minor, for example, parking in the wrong place, it hardly can cause any significant injury,
+however other violations, such as crossing the solid line and driving onto the opposite strip may be the cause of significant injuries and deaths.
+So, the main question of this paper is to find out the extent to which factors like whether
+conditions, road conditions, type of violations do correlate with the severity of car accident and
+can be used as predictors to determine the outcome of a crash. \\
+To answer the stated question, we examine the data on car accidents and car crashes in Moscow, collected from 2015 to 2021.
+The dataset contains information on more than 55000 accidents with all the required information.
+We carefully preprocess the dataset to group the features and the whole procedure of data preprocessing is described in chapter 3. \\
+First and foremost, it is important to define a target variable.
+And as far as the aim of the research is to determine the influence of the factors mentioned above on the outcome of the crash,
+we should carefully pick the variable we will attempt to predict. There are three potential candidates: «deaths», «injuries», «severity».
+In the end «Severity» was chosen as a target variable and there are two reasons for that.
+Firstly, deaths are not a good target, as we cannot properly compare many injuries and one death without referring to severity.
+Moreover, we cannot even compare no deaths and one injury as well.
+Because one injury may be minor or hard, some need to refer to severity of the accident as well.
+Secondly, following the same logic we cannot properly use injuries as an indication of the significance of the accident,
+because it is impossible to directly infer the significancy of wounds.
+Based on that logic «severity» was picked as a target variable, and it was preprocessed assigning «0» to light wounds, «1» to major wounds and deaths.
+It is worth noting that we do not discriminate between major wounds and deaths because the data does not allow us to properly distinguish two cases.
+Difference may exist because the ambulance was a couple minutes faster in one case or due to other factors omitted in the initial data.
+And as two categories are quite close to each other in terms of given features we are going to treat them as one case. \\
+In the end the problem is defined as classification of cases into two groups.
+However, before diving into classification problem we perform the analysis of the target variable.
+If you look at the variable “severity” plotted monthly, you will see a clear downward trend.
+Nevertheless, it is clear that «severity» is an aggregate variable for «deaths» and «injured».
+So, we look at the behaviour of the two latter indicators.
+As it turns the rationale for the number of severe accidents going down is the decline in death rate.
+So, me construct several models to analyze that trend and emulate the behaviour. 
+The detailed description of that model is shown in the fifth chapter. \\
+Afterwards, we turn to classification problem. As it will be shown later in chapter four,
+we face a serious problem with imbalance in data accompanied by a significant overlap of two classes.
+In order to obtain meaningful result, we perform several models. First, we use simple logistic regression and $\verb|CatBoostClassifier|$ with class weights.
+Second, we implement three models specifically designed to deal with imbalanced classes: One-Class SVM, Isolation Forest and Local Outlier Factor.
+The detailed description of the outcome is presented in chapter five. 

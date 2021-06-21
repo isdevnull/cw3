@@ -124,3 +124,10 @@ longitude: $37.1813900^\circ$ to $37.9545100^\circ$, which
 correspond to Mihnevo ($55.1339600^\circ$, $37.9545100^\circ$) and Zelenograd ($55.9825000^\circ$, $37.1813900^\circ$).
 Data is saved in $\verb|csv|$ format and is accessible from root of repository. The code is applicable (maybe with minor tweaks)
 to all other Russian regions.
+Final dataset contains 54599 entries and 99 features. We leave all the features presented in the initial data, except ones that were difficult to
+encode and interpret, e.g. `driver's experience'\footnote{We extract it, but don't use it further.} – 
+if there are multiple cars in an accident, it does not make any sense to employ averaging strategy,
+because driver's experience may vary greatly from one year of driving to 60 years, but it is difficult to differentiate between experienced drivers.
+One more feature that we leave out is a `car's model' – there is just too many of them and there is nothing except model's name
+and we would probably be interested in their characteristics, e.g. safety test results,
+which would require additional collection of data, so we leave it for another time.
